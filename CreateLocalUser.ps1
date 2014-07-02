@@ -40,13 +40,13 @@ Generates an error. You must supply a user name
 
  
 
-CreateLocalUser.ps1 -computer MunichServer -user myUser
+CreateLocalUser.ps1 -computer MyComputer -user myUser
 
  -password Passw0rd^&! -admin Y -forcepw Y
 
  
 
-Creates a local user called myUser on a computer named MunichServer
+Creates a local user called myUser on a computer named MyComputer
 
 with a password of Passw0rd^&! and is made an administrator, a password
 
