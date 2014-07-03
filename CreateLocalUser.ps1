@@ -4,7 +4,7 @@ param($computer="localhost", $user, $password, $help, $admin="n", $ForcePW="n")
  #UITS - UNIVERSITY OF CT
  #7-2-2014
 
-function funHelp()
+function Help()
 
 {
 
@@ -82,9 +82,9 @@ exit
 
 }
 
- 
-#if help recieves any argument, call function funhelp
-if($help){ "Obtaining help ..." ; funhelp }
+
+#if help recieves any argument, call function help
+if($help){ "Obtaining help ..." ; help }
 
  
 #if the user/password arguments are blank, throw an error
