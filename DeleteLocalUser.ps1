@@ -52,7 +52,7 @@ if(!$user)
 	$(Throw "A value for -user is required. Try DeleteLocalUser -help ?")
 	}
 	
-#check if the user exists on the system
+#check if the user exists on the system, delete it if it does
 if([ADSI]::Exists('WinNT://./'+$user))
 	{
 	echo "The account exists"
@@ -62,3 +62,22 @@ if([ADSI]::Exists('WinNT://./'+$user))
 	}
 	
 #if delprof=y, check if it exists and delete it if it does
+if($DelProf -match "Y")
+	{
+	$path = "C:\users\"+$user
+	if(test-path $path)
+		{
+		$filter = "localpath=C:\\Users\\"+$user+"'"
+		#$profile = Get-WmiObject Win32_UserProfile  -computer $computer -filter "localpath='C:\\Users\\testuser'"
+		$profile = Get-WmiObject Win32_UserProfile  -computer $computer -filter $filter
+		$profile.Delete()
+		}
+	else
+		{
+		echo "nothing to delete"
+		}
+	}
+
+	
+	
+	
