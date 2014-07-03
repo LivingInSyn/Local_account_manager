@@ -99,7 +99,7 @@ if(!$user -or !$password)
         }
 
 #if the user account exists
-if([ADSI]::Exists('WinNT://./'+$user))
+if([ADSI]::Exists('WinNT://'+$computer+'/'+$user))
 		{
 		echo "we found it already exists"
 		#if ForcePW says yes
@@ -137,11 +137,39 @@ else
 #THIS DOESN"T REMOVE ADMIN RIGHTS, if it was an admin once, it's still an admin
 if($admin -match "Y")
 	{
-	net localgroup administrators /ADD $user
-	net localgroup users /ADD $user
+	#follows is the old way
+	#net localgroup administrators /ADD $user
+	#net localgroup users /ADD $user
+	
+	#new way using adsi
+	
+	if($computer -match "localhost")
+		{
+		net localgroup administrators /ADD $user
+		}
+	else
+		{
+		$comp_instance = [ADSI]("WinNT://" + $computer + ",computer")
+		$comp_instance.name
+		$group = $comp_instance.psbase.children.find("administrators")
+		$group.name
+		$Group.Add("WinNT://" + $computer + "/" + $user)
+		}
+	
 	}
-if($admin -match "Y")
+else
 	{
-	net localgroup users /ADD $user
+	if($computer -match "localhost")
+		{
+		net localgroup users /ADD $user
+		}
+	else
+		{
+		$comp_instance = [ADSI]("WinNT://" + $computer + ",computer")
+		$comp_instance.name
+		$group = $comp_instance.psbase.children.find("users")
+		$group.name
+		$Group.Add("WinNT://" + $computer + "/" + $user)
+		}
 	}
 
